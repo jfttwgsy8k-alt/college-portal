@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ИС Колледжа — информационная система</title>
+<style>
+:root{--bg:#f3f6fb;--card:#fff;--ink:#17233b;--muted:#71809a;--blue:#315efb;--blue2:#eaf0ff;--line:#e7ecf4;--green:#15966b;--orange:#d88722;--red:#d94b58}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--ink)}
+.layout{display:flex;min-height:100vh}.sidebar{width:248px;background:#101b34;color:#fff;padding:26px 18px;display:flex;flex-direction:column;flex-shrink:0}
+.brand{display:flex;align-items:center;gap:12px;font-weight:750;font-size:17px;margin:0 8px 36px}.logo{width:38px;height:38px;border-radius:12px;background:#315efb;display:grid;place-items:center;font-size:20px}
+.nav-label{font-size:10px;color:#8390aa;text-transform:uppercase;letter-spacing:1.5px;margin:0 10px 12px}
+.nav button{width:100%;border:0;background:transparent;color:#aeb9ce;padding:12px 13px;border-radius:10px;text-align:left;display:flex;gap:12px;align-items:center;font-size:14px;cursor:pointer;margin:3px 0}
+.nav button.active,.nav button:hover{background:#24365e;color:#fff}.nav .ico{width:20px;text-align:center;font-size:16px}
+.sidebar-foot{margin-top:auto;padding:16px 10px;color:#8390aa;font-size:12px;line-height:1.6}
+main{flex:1;min-width:0;padding:28px 34px 50px;max-width:1500px;margin:0 auto;width:100%}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;gap:16px}.eyebrow{font-size:12px;color:var(--muted);margin-bottom:6px}.top h1{font-size:27px;margin:0;letter-spacing:-.6px}.profile{display:flex;align-items:center;gap:12px}.avatar{width:42px;height:42px;border-radius:50%;background:#dce6ff;color:#315efb;display:grid;place-items:center;font-weight:800}.profile small{display:block;color:var(--muted);margin-top:3px}
+.role-select{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:#fff;color:var(--ink);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:20px}.stat,.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 5px 18px rgba(27,48,88,.035)}
+.stat{padding:18px}.stat-top{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:13px}.stat-icon{width:35px;height:35px;border-radius:10px;background:var(--blue2);display:grid;place-items:center}.stat strong{font-size:27px;display:block;margin:14px 0 4px}.stat small{color:var(--muted);font-size:12px}
+.columns{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(280px,1fr);gap:18px}.panel{padding:21px;margin-bottom:18px}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:17px}.panel h2{font-size:16px;margin:0}.sub{font-size:12px;color:var(--muted)}
+.btn{border:0;border-radius:9px;background:var(--blue);color:#fff;padding:10px 14px;font-weight:650;font-size:12px;cursor:pointer}.btn.secondary{background:var(--blue2);color:var(--blue)}.btn:hover{filter:brightness(.96)}
+table{width:100%;border-collapse:collapse;font-size:13px}th{text-align:left;color:var(--muted);font-weight:600;font-size:11px;padding:11px 9px;border-bottom:1px solid var(--line)}td{padding:13px 9px;border-bottom:1px solid var(--line)}tr:last-child td{border-bottom:0}
+.pill{padding:5px 9px;border-radius:20px;font-size:11px;font-weight:650;display:inline-block;background:#e8f7f1;color:var(--green)}.pill.warn{background:#fff3df;color:var(--orange)}.pill.bad{background:#ffeaec;color:var(--red)}
+.activity{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.activity:last-child{border:0}.dot{width:9px;height:9px;border-radius:50%;background:var(--blue);margin-top:5px;flex-shrink:0}.activity b{font-size:13px}.activity p{font-size:12px;color:var(--muted);margin:4px 0 0;line-height:1.45}
+.week{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.day{background:#f7f9fd;border-radius:11px;padding:12px 9px;min-height:112px}.day b{font-size:12px}.lesson{margin-top:10px;background:#eaf0ff;border-left:3px solid var(--blue);padding:7px;border-radius:6px;font-size:11px;line-height:1.35}.lesson span{display:block;color:var(--muted);margin-top:4px}
+.search{border:1px solid var(--line);border-radius:9px;padding:9px 12px;font-size:12px;width:220px;outline:none}.search:focus{border-color:var(--blue)}
+.section{display:none}.section.active{display:block}.welcome{background:linear-gradient(115deg,#244bd6,#4779ff);color:#fff;border-radius:17px;padding:24px 26px;margin-bottom:19px;display:flex;justify-content:space-between;align-items:center;gap:15px}.welcome h2{margin:0 0 7px;font-size:21px}.welcome p{margin:0;color:#dce5ff;font-size:13px}.welcome .big{font-size:42px;opacity:.9}
+.notice{padding:13px 15px;background:#f5f8ff;border:1px solid #e2eaff;border-radius:11px;font-size:12px;color:#53627e;line-height:1.5;margin-top:15px}
+.form-row{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}.field{border:1px solid var(--line);border-radius:9px;padding:10px 12px;font:inherit;font-size:13px;background:#fff;min-width:150px}
+footer{text-align:center;color:#9aa5b8;font-size:11px;padding:12px}
+@media(max-width:950px){.sidebar{width:205px}.grid{grid-template-columns:repeat(2,1fr)}.columns{grid-template-columns:1fr}}
+@media(max-width:650px){.layout{display:block}.sidebar{width:100%;padding:14px}.brand{margin:0 8px 12px}.nav{display:flex;overflow:auto;gap:4px}.nav-label,.sidebar-foot{display:none}.nav button{white-space:nowrap;width:auto;padding:9px 11px}.nav .ico{display:none}main{padding:20px 14px}.top{align-items:flex-start}.top h1{font-size:22px}.profile .who{display:none}.grid{gap:10px}.stat{padding:14px}.stat strong{font-size:23px}.columns{display:block}.week{grid-template-columns:repeat(2,1fr)}.search{width:100%}table{min-width:520px}.table-wrap{overflow:auto}}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar">
+  <div class="brand"><div class="logo">🎓</div><div>ИС Колледжа<br><span style="font-size:10px;color:#9eabc3;font-weight:500">УЧЕБНЫЙ ПОРТАЛ</span></div></div>
+  <div class="nav-label">Главное меню</div>
+  <nav class="nav">
+    <button class="active" data-page="dashboard"><span class="ico">▦</span>Обзор</button>
+    <button data-page="schedule"><span class="ico">▤</span>Расписание</button>
+    <button data-page="grades"><span class="ico">★</span>Успеваемость</button>
+    <button data-page="attendance"><span class="ico">✓</span>Посещаемость</button>
+    <button data-page="practice"><span class="ico">▣</span>Практика</button>
+    <button data-page="students"><span class="ico">♙</span>Студенты</button>
+  </nav>
+  <div class="sidebar-foot">Демонстрационная версия<br>Информационная система колледжа<br>© 2026</div>
+</aside>
+<main>
+<header class="top">
+  <div><div class="eyebrow">ПОНЕДЕЛЬНИК, 10 НОЯБРЯ 2026</div><h1 id="pageTitle">Обзор системы</h1></div>
+  <div class="profile">
+    <select class="role-select" id="role" aria-label="Выбрать роль"><option value="student">Студент</option><option value="teacher">Преподаватель</option><option value="admin">Администратор</option></select>
+    <div class="avatar">ИИ</div><div class="who"><b id="userName">Ирина Иванова</b><small id="userRole">Студент · ИСП-21</small></div>
+  </div>
+</header>
+
+<section class="section active" id="dashboard">
+  <div class="welcome"><div><h2>Добро пожаловать в систему!</h2><p>Здесь собрана основная информация об учебном процессе.</p></div><div class="big">🎓</div></div>
+  <div class="grid">
+    <div class="stat"><div class="stat-top">Средний балл <span class="stat-icon">★</span></div><strong>4,6</strong><small>По текущим оценкам</small></div>
+    <div class="stat"><div class="stat-top">Посещаемость <span class="stat-icon">✓</span></div><strong>94%</strong><small>За текущий семестр</small></div>
+    <div class="stat"><div class="stat-top">Ближайшие занятия <span class="stat-icon">▤</span></div><strong>3</strong><small>Сегодня по расписанию</small></div>
+    <div class="stat"><div class="stat-top">Практика <span class="stat-icon">▣</span></div><strong>В работе</strong><small>УП.02.01 · ПМ.02</small></div>
+  </div>
+  <div class="columns">
+    <div>
+      <div class="panel">
+        <div class="panel-head"><h2>Расписание на сегодня</h2><button class="btn secondary" onclick="showPage('schedule')">Все занятия</button></div>
+        <div class="table-wrap"><table><thead><tr><th>Время</th><th>Дисциплина</th><th>Аудитория</th><th>Преподаватель</th></tr></thead><tbody>
+          <tr><td>08:30–10:00</td><td>Основы алгоритмизации</td><td>204</td><td>Иванова Е. П.</td></tr>
+          <tr><td>10:10–11:40</td><td>Разработка модулей</td><td>312</td><td>Петров А. С.</td></tr>
+          <tr><td>12:10–13:40</td><td>Базы данных</td><td>215</td><td>Сидорова Н. В.</td></tr>
+        </tbody></table></div>
+      </div>
+      <div class="panel"><div class="panel-head"><h2>Последние оценки</h2><button class="btn secondary" onclick="showPage('grades')">Подробнее</button></div>
+        <div class="table-wrap"><table><thead><tr><th>Предмет</th><th>Дата</th><th>Оценка</th></tr></thead><tbody>
+          <tr><td>Разработка программных модулей</td><td>09.11.2026</td><td><span class="pill">5</span></td></tr>
+          <tr><td>Базы данных</td><td>07.11.2026</td><td><span class="pill">4</span></td></tr>
+          <tr><td>Математика</td><td>05.11.2026</td><td><span class="pill warn">3</span></td></tr>
+        </tbody></table></div>
+      </div>
+    </div>
+    <div>
+      <div class="panel"><div class="panel-head"><h2>Объявления</h2><span class="sub">Колледж</span></div>
+        <div class="activity"><div class="dot"></div><div><b>Начало учебной практики</b><p>Проверьте индивидуальные задания и сроки сдачи отчётов.</p></div></div>
+        <div class="activity"><div class="dot" style="background:#e5a33a"></div><div><b>Изменение расписания</b><p>В среду занятие по базам данных перенесено в аудиторию 215.</p></div></div>
+        <div class="activity"><div class="dot" style="background:#15966b"></div><div><b>Сдача работ</b><p>Загрузите выполненные лабораторные работы до конца недели.</p></div></div>
+      </div>
+      <div class="panel"><div class="panel-head"><h2>Ближайшая практика</h2><span class="pill">В работе</span></div><b style="font-size:14px">УП.02.01 — учебная практика</b><p class="sub" style="line-height:1.6">Модуль ПМ.02. Осуществление интеграции программных модулей.</p><div class="notice">Раздел практики содержит сведения о задании, сроках и статусе выполнения.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="schedule">
+ <div class="panel"><div class="panel-head"><h2>Учебное расписание</h2><span class="sub">Группа ИСП-21 · пример</span></div>
+ <div class="week">
+  <div class="day"><b>Понедельник</b><div class="lesson">Алгоритмизация<span>08:30 · 204</span></div><div class="lesson">Разработка модулей<span>10:10 · 312</span></div></div>
+  <div class="day"><b>Вторник</b><div class="lesson">Базы данных<span>08:30 · 215</span></div><div class="lesson">Иностранный язык<span>10:10 · 108</span></div></div>
+  <div class="day"><b>Среда</b><div class="lesson">Программирование<span>09:00 · 312</span></div><div class="lesson">Математика<span>10:40 · 207</span></div></div>
+  <div class="day"><b>Четверг</b><div class="lesson">Компьютерные сети<span>08:30 · 310</span></div><div class="lesson">Практика<span>10:10 · Лаб. 2</span></div></div>
+  <div class="day"><b>Пятница</b><div class="lesson">Базы данных<span>09:00 · 215</span></div><div class="lesson">Физкультура<span>10:40 · Зал</span></div></div>
+ </div><div class="notice">Расписание демонстрационное. Фактические занятия и аудитории определяются администрацией колледжа.</div></div>
+</section>
+
+<section class="section" id="grades">
+ <div class="panel"><div class="panel-head"><h2>Журнал успеваемости</h2><span class="sub">Студент: Ирина Иванова</span></div>
+ <div class="table-wrap"><table><thead><tr><th>Дисциплина</th><th>05.11</th><th>07.11</th><th>09.11</th><th>Средний балл</th></tr></thead><tbody>
+ <tr><td>Разработка программных модулей</td><td>5</td><td>4</td><td>5</td><td><span class="pill">4,7</span></td></tr>
+ <tr><td>Базы данных</td><td>4</td><td>4</td><td>—</td><td><span class="pill">4,0</span></td></tr>
+ <tr><td>Математика</td><td>3</td><td>4</td><td>—</td><td><span class="pill warn">3,5</span></td></tr>
+ <tr><td>Компьютерные сети</td><td>5</td><td>5</td><td>—</td><td><span class="pill">5,0</span></td></tr>
+ </tbody></table></div></div>
+</section>
+
+<section class="section" id="attendance">
+ <div class="grid">
+  <div class="stat"><div class="stat-top">Посещено занятий <span class="stat-icon">✓</span></div><strong>47</strong><small>За семестр</small></div>
+  <div class="stat"><div class="stat-top">Пропуски <span class="stat-icon">!</span></div><strong>3</strong><small>Всего занятий</small></div>
+  <div class="stat"><div class="stat-top">По уважительной причине <span class="stat-icon">▣</span></div><strong>2</strong><small>Подтверждено</small></div>
+  <div class="stat"><div class="stat-top">Посещаемость <span class="stat-icon">%</span></div><strong>94%</strong><small>Текущий семестр</small></div>
+ </div>
+ <div class="panel"><div class="panel-head"><h2>Учёт посещаемости</h2><span class="sub">Последние занятия</span></div><div class="table-wrap"><table><thead><tr><th>Дата</th><th>Дисциплина</th><th>Статус</th></tr></thead><tbody>
+ <tr><td>10.11.2026</td><td>Основы алгоритмизации</td><td><span class="pill">Присутствовал</span></td></tr>
+ <tr><td>10.11.2026</td><td>Разработка модулей</td><td><span class="pill">Присутствовал</span></td></tr>
+ <tr><td>07.11.2026</td><td>Математика</td><td><span class="pill bad">Отсутствовал</span></td></tr>
+ <tr><td>06.11.2026</td><td>Базы данных</td><td><span class="pill">Присутствовал</span></td></tr>
+ </tbody></table></div></div>
+</section>
+
+<section class="section" id="practice">
+ <div class="panel"><div class="panel-head"><h2>Сведения о практике</h2><span class="pill">Активная</span></div>
+ <div class="grid" style="margin-bottom:10px">
+  <div class="stat"><div class="stat-top">Код практики</div><strong style="font-size:21px">УП.02.01</strong><small>Учебная практика</small></div>
+  <div class="stat"><div class="stat-top">Модуль</div><strong style="font-size:21px">ПМ.02</strong><small>Интеграция модулей</small></div>
+  <div class="stat"><div class="stat-top">Объём</div><strong>72 ч.</strong><small>По индивидуальному заданию</small></div>
+  <div class="stat"><div class="stat-top">Тема задания</div><strong style="font-size:17px">ИС колледжа</strong><small>Информационная система колледжа</small></div>
+ </div>
+ <h2 style="font-size:15px;margin:22px 0 12px">Этапы выполнения</h2>
+ <div class="activity"><div class="dot"></div><div><b>1. Выработка требований к ПО</b><p>Определение назначения, пользователей и функций системы.</p></div></div>
+ <div class="activity"><div class="dot"></div><div><b>2. Разработка требований к модулям</b><p>Описание взаимодействия компонентов системы.</p></div></div>
+ <div class="activity"><div class="dot"></div><div><b>3. Проектирование ПО</b><p>Подготовка структуры и схемы информационной системы.</p></div></div>
+ <div class="activity"><div class="dot"></div><div><b>4. Интеграция модулей</b><p>Объединение отдельных компонентов в единое приложение.</p></div></div>
+ <div class="activity"><div class="dot"></div><div><b>5. Разработка и проверка кода</b><p>Реализация функций, тестирование и отладка.</p></div></div>
+ </div>
+</section>
+
+<section class="section" id="students">
+ <div class="panel"><div class="panel-head"><h2>Список студентов</h2><input class="search" id="studentSearch" placeholder="Поиск по имени или группе…"></div>
+ <div class="table-wrap"><table id="studentsTable"><thead><tr><th>№</th><th>ФИО</th><th>Группа</th><th>Специальность</th><th>Статус</th></tr></thead><tbody>
+ <tr><td>1</td><td>Иванова Ирина</td><td>ИСП-21</td><td>Информационные системы и программирование</td><td><span class="pill">Обучается</span></td></tr>
+ <tr><td>2</td><td>Петров Алексей</td><td>ИСП-21</td><td>Информационные системы и программирование</td><td><span class="pill">Обучается</span></td></tr>
+ <tr><td>3</td><td>Смирнова Анна</td><td>ИСП-21</td><td>Информационные системы и программирование</td><td><span class="pill">Обучается</span></td></tr>
+ <tr><td>4</td><td>Кузнецов Максим</td><td>ИСП-22</td><td>Информационные системы и программирование</td><td><span class="pill">Обучается</span></td></tr>
+ <tr><td>5</td><td>Соколова Мария</td><td>ИСП-22</td><td>Информационные системы и программирование</td><td><span class="pill">Обучается</span></td></tr>
+ </tbody></table></div>
+ <div class="notice">Раздел показывает пример списка студентов. В реальной системе редактирование и просмотр данных должны быть доступны только авторизованным сотрудникам с соответствующими правами.</div>
+ </div>
+</section>
+<footer>Учебный проект · Информационная система колледжа · Демонстрационные данные</footer>
+</main>
+</div>
+<script>
+const titles={dashboard:"Обзор системы",schedule:"Расписание занятий",grades:"Успеваемость",attendance:"Посещаемость",practice:"Учебная практика",students:"Студенты"};
+function showPage(id){document.querySelectorAll('.section').forEach(s=>s.classList.toggle('active',s.id===id));document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));document.getElementById('pageTitle').textContent=titles[id]||"Обзор системы"}
+document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
+const role=document.getElementById('role');
+role.addEventListener('change',()=>{
+ const v=role.value, name=document.getElementById('userName'), r=document.getElementById('userRole'), avatar=document.querySelector('.avatar');
+ if(v==='student'){name.textContent='Ирина Иванова';r.textContent='Студент · ИСП-21';avatar.textContent='ИИ'}
+ if(v==='teacher'){name.textContent='Алексей Петров';r.textContent='Преподаватель';avatar.textContent='АП'}
+ if(v==='admin'){name.textContent='Администратор';r.textContent='Администрация колледжа';avatar.textContent='АД'}
+});
+document.getElementById('studentSearch').addEventListener('input',e=>{
+ const q=e.target.value.toLowerCase();
+ document.querySelectorAll('#studentsTable tbody tr').forEach(tr=>tr.style.display=tr.textContent.toLowerCase().includes(q)?'':'none');
+});
+</script>
+</body>
+</html>
